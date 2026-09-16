@@ -1,8 +1,8 @@
-/*
-	single linked list merge
-	This problem requires you to merge two ordered singly linked lists into one ordered singly linked list
-*/
-// I AM NOT DONE
+    /*
+        single linked list merge
+        This problem requires you to merge two ordered singly linked lists into one ordered singly linked list
+    */
+    // I AM NOT DONE
 
 use std::fmt::{self, Display, Formatter};
 use std::ptr::NonNull;
@@ -13,7 +13,7 @@ struct Node<T> {
     val: T,
     next: Option<NonNull<Node<T>>>,
 }
-
+ 
 impl<T> Node<T> {
     fn new(t: T) -> Node<T> {
         Node {
@@ -77,8 +77,10 @@ impl<T> LinkedList<T> {
             start: None,
             end: None,
         }
+
+        }
 	}
-}
+
 
 impl<T> Display for LinkedList<T>
 where
