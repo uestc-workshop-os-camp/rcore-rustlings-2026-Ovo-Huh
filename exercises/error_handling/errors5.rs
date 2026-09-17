@@ -1,35 +1,24 @@
 // errors5.rs
 //
-// This program uses an altered version of the code from errors4.
+// 这个程序使用了一个修改版的 errors4 代码。
 //
-// This exercise uses some concepts that we won't get to until later in the
-// course, like `Box` and the `From` trait. It's not important to understand
-// them in detail right now, but you can read ahead if you like. For now, think
-// of the `Box<dyn ???>` type as an "I want anything that does ???" type, which,
-// given Rust's usual standards for runtime safety, should strike you as
-// somewhat lenient!
-//
-// In short, this particular use case for boxes is for when you want to own a
-// value and you care only that it is a type which implements a particular
-// trait. To do so, The Box is declared as of type Box<dyn Trait> where Trait is
-// the trait the compiler looks for on any value used in that context. For this
-// exercise, that context is the potential errors which can be returned in a
-// Result.
-//
-// What can we use to describe both errors? In other words, is there a trait
-// which both errors implement?
-//
+// 这个练习涉及一些我们在课程后面才会学到的概念，比如 `Box` 和 `From` trait。现在不需要详细理解它们，
+// 但如果你愿意可以提前阅读。暂时把 `Box<dyn ???>` 类型理解为“我想要任何实现 ??? 的东西”的类型，
+// 考虑到 Rust 一贯的运行时安全标准，这种做法可能让你觉得有点宽松！
+// 简而言之，使用 Box 的这个特定场景是：当你想拥有某个值，并且只在意它实现了某个特定 trait 时。为此，
+// Box 被声明为 Box<dyn Trait> 类型，其中 Trait 是编译器在该上下文中会查找的 trait。对于这个练习，
+// 这个上下文是可能在 Result 中返回的错误。
+// 那么我们可以用什么来描述这两种错误呢？换句话说，是否有一个 trait 是这两种错误都实现的？
 // Execute `rustlings hint errors5` or use the `hint` watch subcommand for a
 // hint.
 
-// I AM NOT DONE
 
 use std::error;
 use std::fmt;
 use std::num::ParseIntError;
 
 // TODO: update the return type of `main()` to make this compile.
-fn main() -> Result<(), Box<dyn ???>> {
+fn main() -> Result<(), Box<dyn error::Error>> {
     let pretend_user_input = "42";
     let x: i64 = pretend_user_input.parse()?;
     println!("output={:?}", PositiveNonzeroInteger::new(x)?);
