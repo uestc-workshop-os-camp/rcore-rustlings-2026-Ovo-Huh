@@ -31,27 +31,42 @@ enum ParsePersonError {
     ParseInt(ParseIntError),
 }
 
-// I AM NOT DONE
+// 步骤：
+// 1. 如果提供的字符串长度为 0，应返回一个错误
+// 2. 根据字符串中的逗号进行分割
+// 3. 分割后应只返回 2 个元素，否则返回错误
+// 4. 从分割结果中提取第一个元素作为名字
+// 5. 从分割结果中提取另一个元素，并用类似 `"4".parse::<usize>()` 的方式解析为年龄
+// 6. 如果在提取名字和年龄时出现问题，应返回错误
+// 如果一切正常，则返回一个 Person 对象的 Result
 
-// Steps:
-// 1. If the length of the provided string is 0, an error should be returned
-// 2. Split the given string on the commas present in it
-// 3. Only 2 elements should be returned from the split, otherwise return an
-//    error
-// 4. Extract the first element from the split operation and use it as the name
-// 5. Extract the other element from the split operation and parse it into a
-//    `usize` as the age with something like `"4".parse::<usize>()`
-// 6. If while extracting the name and the age something goes wrong, an error
-//    should be returned
-// If everything goes well, then return a Result of a Person object
-//
-// As an aside: `Box<dyn Error>` implements `From<&'_ str>`. This means that if
-// you want to return a string error message, you can do so via just using
-// return `Err("my error message".into())`.
+// 另外：`Box<dyn Error>` 实现了 `From<&'_ str>`。这意味着如果想返回一个字符串错误信息，可以直接使用
+// return `Err("my error message".into())`。
 
 impl FromStr for Person {
     type Err = ParsePersonError;
     fn from_str(s: &str) -> Result<Person, Self::Err> {
+        if s.is_empty(){return Err(ParsePersonError::Empty)};
+        let mut data = s.split(',');
+        let first = match data.next(){
+            Some(x) => x.to_string(),
+            None => return Err(ParsePersonError::NoName),
+        };
+        if first.is_empty(){return Err(ParsePersonError::NoName)};
+
+        let second = match data.next(){
+            Some(x) => x.parse::<usize>(),
+            None => return Err(ParsePersonError::BadLen),
+        };
+        if data.next().is_some(){return Err(ParsePersonError::BadLen)};
+
+        match second{
+            Err(e) => Err(ParsePersonError::ParseInt(e)),
+            Ok(x) =>Ok(Person{
+                name:first,
+                age:x
+            })
+        }
     }
 }
 

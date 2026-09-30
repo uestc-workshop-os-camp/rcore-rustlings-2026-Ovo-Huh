@@ -24,26 +24,47 @@ impl Default for Person {
     }
 }
 
-// Your task is to complete this implementation in order for the line `let p =
-// Person::from("Mark,20")` to compile Please note that you'll need to parse the
-// age component into a `usize` with something like `"4".parse::<usize>()`. The
-// outcome of this needs to be handled appropriately.
-//
-// Steps:
-// 1. If the length of the provided string is 0, then return the default of
-//    Person.
-// 2. Split the given string on the commas present in it.
-// 3. Extract the first element from the split operation and use it as the name.
-// 4. If the name is empty, then return the default of Person.
-// 5. Extract the other element from the split operation and parse it into a
-//    `usize` as the age.
-// If while parsing the age, something goes wrong, then return the default of
-// Person Otherwise, then return an instantiated Person object with the results
+// 你的任务是完成这个实现，以便这一行 `let p =
+// Person::from("Mark,20")` 能够编译。请注意，你需要将年龄部分解析为 `usize`，可以使用类似 `"4".parse::<usize>()`
+// 的方法。解析结果需要妥善处理。
 
-// I AM NOT DONE
+// 步骤：
+// 1. 如果提供的字符串长度为 0，则返回 Person 的默认值。
+// 2. 按字符串中的逗号分割给定字符串。
+// 3. 从分割结果中提取第一个元素作为名字。
+// 4. 如果名字为空，则返回 Person 的默认值。
+// 5. 从分割结果中提取另一个元素并将其解析为 `usize` 作为年龄。
+// 如果在解析年龄时出现问题，则返回 Person 的默认值，否则返回一个使用解析结果创建的 Person 对象。
 
 impl From<&str> for Person {
     fn from(s: &str) -> Person {
+        if s.is_empty() {
+            return Person::default();
+        }
+        let mut data = s.split(',');
+        let first = match data.next(){
+            Some(x) =>x,
+            None => return Person::default(),
+        };
+        if first.is_empty(){
+            return Person::default();
+        }
+    
+        let second= match data.next(){
+            Some(x) => x.parse::<usize>(),
+            None => return Person::default(),
+        };
+        if data.next().is_some(){
+            return Person::default();
+        }
+        match second{
+            Err(_) => Person::default(),
+            Ok(m) => Person{
+                name:first.to_string(),
+                age:m
+            },
+        }
+        
     }
 }
 
