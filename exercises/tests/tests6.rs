@@ -12,7 +12,7 @@
 struct Foo {
     a: u128,
     b: Option<String>,
-}
+}   
 
 /// # Safety
 ///
