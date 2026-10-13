@@ -2,8 +2,6 @@
         single linked list merge
         This problem requires you to merge two ordered singly linked lists into one ordered singly linked list
     */
-    // I AM NOT DONE
-
 use std::fmt::{self, Display, Formatter};
 use std::ptr::NonNull;
 use std::vec::*;
@@ -56,11 +54,11 @@ impl<T> LinkedList<T> {
         self.length += 1;
     }
 
-    pub fn get(&mut self, index: i32) -> Option<&T> {
+    pub fn get(&self, index: i32) -> Option<&T> {
         self.get_ith_node(self.start, index)
     }
 
-    fn get_ith_node(&mut self, node: Option<NonNull<Node<T>>>, index: i32) -> Option<&T> {
+    fn get_ith_node(&self, node: Option<NonNull<Node<T>>>, index: i32) -> Option<&T> {
         match node {
             None => None,
             Some(next_ptr) => match index {
@@ -69,17 +67,31 @@ impl<T> LinkedList<T> {
             },
         }
     }
-	pub fn merge(list_a:LinkedList<T>,list_b:LinkedList<T>) -> Self
-	{
-		//TODO
-		Self {
-            length: 0,
-            start: None,
-            end: None,
+}
+impl<T: Copy + PartialOrd> LinkedList<T> {
+    pub fn merge(list_a: LinkedList<T>, list_b: LinkedList<T>) -> Self {
+        let mut result = LinkedList::new();
+        let mut a_index= 0;
+        let mut b_index= 0;
+
+        while a_index < list_a.length as i32 || b_index < list_b.length as i32 {
+            let a = list_a.get(a_index);
+            let b = list_b.get(b_index);
+
+            match (a, b) {
+                (Some(x), None) => { result.add(*x); a_index += 1; }
+                (None, Some(y)) => { result.add(*y); b_index += 1; }
+                (Some(x), Some(y)) => {
+                    if *x <= *y { result.add(*x); a_index += 1; }
+                    else        { result.add(*y); b_index += 1; }
+                }
+                (None, None) => break,
+            }
         }
 
-        }
-	}
+        result
+    }
+}
 
 
 impl<T> Display for LinkedList<T>

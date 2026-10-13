@@ -3,10 +3,18 @@
 	This problem requires you to implement a sorting algorithm
 	you can use bubble sorting, insertion sorting, heap sorting, etc.
 */
-// I AM NOT DONE
 
-fn sort<T>(array: &mut [T]){
+fn sort<T:std::cmp::PartialOrd>(array: &mut [T]){
 	//TODO
+    //bubble sorting
+    let length = array.len();
+    for i in 0..length-1{
+        for j in i+1..length{
+            if array[i]>array[j]{
+                array.swap(i,j);
+            }
+        }
+    }
 }
 #[cfg(test)]
 mod tests {
