@@ -80,12 +80,12 @@ where
         
         //     }
         // }
-            let mut current = &self.root;
-            while let Some(node) = current{
+            let mut temp = &self.temp;
+            while let Some(node) = temp{
                 match value.cmp(&node.value) {
                     Ordering::Equal => return true,
-                    Ordering::Less => current = &node.left,
-                    Ordering::Greater => current = &node.right,
+                    Ordering::Less => temp = &node.left,
+                    Ordering::Greater => temp = &node.right,
                 }
             }
             false
