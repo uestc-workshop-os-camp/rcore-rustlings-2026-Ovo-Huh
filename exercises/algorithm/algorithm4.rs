@@ -80,7 +80,7 @@ where
         
         //     }
         // }
-            let mut temp = &self.temp;
+            let mut temp = &self.root;
             while let Some(node) = temp{
                 match value.cmp(&node.value) {
                     Ordering::Equal => return true,
