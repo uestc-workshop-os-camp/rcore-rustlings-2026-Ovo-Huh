@@ -36,10 +36,10 @@ impl Graph {
         queue.push_back(start);
         while let Some(x) = queue.pop_front(){
             visit_order.push(x);
-            for i in &self.adj[x]{
-                if visited[*i] == 0{
-                    visited[*i] = 1;
-                    queue.push_back(*i);
+            for &i in &self.adj[x]{
+                if visited[i] == 0{
+                    visited[i] = 1;
+                    queue.push_back(i);
                 }
             }
         }
