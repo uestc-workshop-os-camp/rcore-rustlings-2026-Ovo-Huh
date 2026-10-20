@@ -2,7 +2,6 @@
 	heap
 	This question requires you to implement a binary heap function
 */
-// I AM NOT DONE
 
 use std::cmp::Ord;
 use std::default::Default;
@@ -44,7 +43,7 @@ where
             let mut index = self.count;
             while index > 1{
                 let mut parent =self.parent_idx(index);
-                if self.comparator(&self.items[index],&self.items[parent]){
+                if (self.comparator)(&self.items[index],&self.items[parent]){
                     self.items.swap(index,parent);
                     index = parent;
                 } else{
@@ -70,13 +69,13 @@ where
 
     fn smallest_child_idx(&self, idx: usize) -> usize {
         //TODO
-		let left = left_child_idx;
-        let right = right_child_idx;
+		let left = self.left_child_idx(idx);
+        let right = self.right_child_idx(idx);
 
         if right > self.len(){
-            return right;
+            return left;
         }
-        if self.comparator(&self.items[right],&self.items[left]){
+        if (self.comparator)(&self.items[right],&self.items[left]){
             right
         }else{
             left
@@ -107,9 +106,28 @@ where
 
     fn next(&mut self) -> Option<T> {
         //TODO
-		
+		if self.count == 0 {
+            return None;
+        }
+        self.items.swap(1, self.count);
+        let result = self.items.pop();
+        self.count -= 1;
+        if self.count > 0 {
+            let mut index = 1;
+            while self.left_child_idx(index) <= self.count {
+                let child = self.smallest_child_idx(index);
+                if (self.comparator)(&self.items[child], &self.items[index]) {
+                    self.items.swap(index, child);
+                    index = child;
+                } else {
+                    break;
+                }
+            }
+        }
+        result
     }
 }
+
 
 pub struct MinHeap;
 
