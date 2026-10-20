@@ -28,9 +28,8 @@ impl Graph {
     fn bfs_with_return(&self, start: usize) -> Vec<usize> {
         
 		//TODO
-        let n = self.adj.len();
         let mut visit_order = vec![];
-        let mut visited = vec![0;n];
+        let mut visited = vec![0;self.adj.len()];
         let mut queue = VecDeque::new();
         visited[start] = 1;
         queue.push_back(start);
@@ -43,9 +42,6 @@ impl Graph {
                 }
             }
         }
-
-
-
         visit_order
     }
 }
